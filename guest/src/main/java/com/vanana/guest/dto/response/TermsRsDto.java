@@ -3,7 +3,7 @@ package com.vanana.guest.dto.response;
 import lombok.Builder;
 
 @Builder
-public record TermsDto(
+public record TermsRsDto(
     Long termsId,
     String title,
     Integer version,
