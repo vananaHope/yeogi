@@ -16,6 +16,14 @@ import java.util.List;
 public interface TermsMapper {
     TermsMapper INSTANCE = Mappers.getMapper(TermsMapper.class);
 
+    /**
+     * Entity To Dto
+     */
     List<TermsRsDto> toTermsRsDtoList(List<TermsEt> termsEtList);
-    TermsRsDto toTermRsDto(TermsEt termsEt);
+    TermsRsDto toTermsRsDto(TermsEt termsEt);
+
+    /**
+     * Dto To Entity
+     */
+    TermsEt toTermsEt(TermsRsDto dto);
 }

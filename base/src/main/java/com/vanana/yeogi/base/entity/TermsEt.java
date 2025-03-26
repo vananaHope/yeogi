@@ -3,8 +3,7 @@ package com.vanana.yeogi.base.entity;
 import com.vanana.yeogi.base.entity.common.BaseEt;
 import com.vanana.yeogi.base.util.BooleanToYNConverter;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Getter
 @NoArgsConstructor
@@ -22,8 +21,8 @@ public class TermsEt extends BaseEt {
     @Column(name = "content")
     private String content;
 
-    @Column(name = "version")
-    private Long version;
+    @Version
+    private Integer version;
 
     @Convert(converter = BooleanToYNConverter.class)
     @Column(name = "mandatory")
@@ -32,5 +31,15 @@ public class TermsEt extends BaseEt {
     @Convert(converter = BooleanToYNConverter.class)
     @Column(name = "use_yn")
     private Boolean isUseYn;
+
+    /**
+     * Entity 변경 감지를 위해 dto와 entity 정보를 일치시킴
+     */
+    public void syncWithDto(String title, String content, Boolean isMandatory, Boolean isUseYn) {
+        this.title = title;
+        this.content = content;
+        this.isMandatory = isMandatory;
+        this.isUseYn = isUseYn;
+    }
 
 }

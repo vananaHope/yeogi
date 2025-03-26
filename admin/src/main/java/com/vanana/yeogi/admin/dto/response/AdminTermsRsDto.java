@@ -1,10 +1,9 @@
-package com.vanana.yeogi.guest.dto.response;
+package com.vanana.yeogi.admin.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 
 @Builder
-public record TermsRsDto(
+public record AdminTermsRsDto(
     Long termsId,
     String title,
     String content,
