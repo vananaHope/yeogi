@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: provider
+
+  profiles:
+    active: local
+    include:
+      - base
+---
+spring.config.activate.on-profile: local
+server:
+  port: 8092
+
+logging:
+  level:
+    root: info

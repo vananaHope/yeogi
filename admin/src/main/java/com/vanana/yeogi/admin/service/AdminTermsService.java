@@ -18,8 +18,19 @@ public class AdminTermsService {
 
     @Transactional
     public AdminTermsRsDto addNewTerms(AdminTermsRqDto adminTermsRqDto) {
+//        TermsEt termsEt = adminTermsMapper.toTermsEt(adminTermsRqDto);
+//        return adminTermsMapper.toAdminTermsRsDto(termsRepository.save(termsEt));
+        System.out.println("adminTermsRqDto = " + adminTermsRqDto);
         TermsEt termsEt = adminTermsMapper.toTermsEt(adminTermsRqDto);
-        return adminTermsMapper.toAdminTermsRsDto(termsRepository.save(termsEt));
+        System.out.println("Mapped TermsEt: " + termsEt);
+
+        TermsEt savedTerms = termsRepository.save(termsEt);
+        System.out.println("Saved TermsEt: " + savedTerms);
+
+        AdminTermsRsDto response = adminTermsMapper.toAdminTermsRsDto(savedTerms);
+        System.out.println("Mapped AdminTermsRsDto: " + response);
+
+        return response;
     }
 
     @Transactional
@@ -27,7 +38,7 @@ public class AdminTermsService {
         TermsEt termsEt = termsRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid terms id: " + id));
 
-        termsEt.syncWithDto(dto.title(),dto.content(),dto.isMandatory(),dto.isUseYn());
+        termsEt.updateTerms(dto.title(),dto.content(),dto.isMandatory(),dto.isUseYn());
 
         return adminTermsMapper.toAdminTermsRsDto(termsEt);
     }

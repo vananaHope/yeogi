@@ -5,7 +5,10 @@ import com.vanana.yeogi.base.util.BooleanToYNConverter;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Objects;
+
 @Getter
+@ToString
 @NoArgsConstructor
 @Entity
 @Table(name = "terms")
@@ -32,14 +35,18 @@ public class TermsEt extends BaseEt {
     @Column(name = "use_yn")
     private Boolean isUseYn;
 
-    /**
-     * Entity 변경 감지를 위해 dto와 entity 정보를 일치시킴
-     */
-    public void syncWithDto(String title, String content, Boolean isMandatory, Boolean isUseYn) {
+    @Builder
+    public TermsEt(String title, String content, Boolean isMandatory, Boolean isUseYn) {
         this.title = title;
         this.content = content;
         this.isMandatory = isMandatory;
         this.isUseYn = isUseYn;
     }
 
+    public void updateTerms(String title, String content, Boolean isMandatory, Boolean isUseYn) {
+        if(Objects.nonNull(title)){this.title = title;}
+        if(Objects.nonNull(content)){this.content = content;}
+        if(Objects.nonNull(isMandatory)){this.isMandatory = isMandatory;}
+        if(Objects.nonNull(isUseYn)){this.isUseYn = isUseYn;}
+    }
 }

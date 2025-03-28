@@ -6,7 +6,9 @@ import com.vanana.yeogi.base.entity.TermsEt;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(
+        componentModel = "spring"
+)
 public interface AdminTermsMapper {
     AdminTermsMapper INSTANCE = Mappers.getMapper(AdminTermsMapper.class);
 
