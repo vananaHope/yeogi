@@ -6,6 +6,8 @@ import com.vanana.yeogi.base.entity.TermsEt;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 @Mapper(
         componentModel = "spring"
 )
@@ -21,4 +23,5 @@ public interface AdminTermsMapper {
      * Entity To Dto
      */
      AdminTermsRsDto toAdminTermsRsDto(TermsEt termsEt);
+     List<AdminTermsRsDto> toAdminTermsRsDtoList(List<TermsEt> termsEtList);
 }
