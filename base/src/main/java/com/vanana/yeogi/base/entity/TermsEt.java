@@ -3,7 +3,10 @@ package com.vanana.yeogi.base.entity;
 import com.vanana.yeogi.base.entity.common.BaseEt;
 import com.vanana.yeogi.base.util.BooleanToYNConverter;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.Objects;
 

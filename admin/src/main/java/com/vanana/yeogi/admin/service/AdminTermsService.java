@@ -52,11 +52,12 @@ public class AdminTermsService {
             termsEt.updateTerms(dto.title(), dto.content(), dto.isMandatory(), dto.isUseYn());
 
             // 동시성 테스트를 위해 강제로 수정 후 바로 flush를 통해 db에 반영
-            entityManager.flush();
+            // entityManager.flush();
 
             return adminTermsMapper.toAdminTermsRsDto(termsEt);
         }catch (OptimisticLockException e){
             throw new OptimisticLockException("약관 수정 충돌 발생");
         }
     }
+
 }

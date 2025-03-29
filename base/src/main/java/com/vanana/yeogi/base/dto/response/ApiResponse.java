@@ -1,4 +1,4 @@
-package com.vanana.yeogi.guest.dto;
+package com.vanana.yeogi.base.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
@@ -7,22 +7,21 @@ import lombok.Data;
 @Data
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class GuestApiResponse<T> {
+public class ApiResponse<T> {
     private boolean result;
     private String message;
     private T data;
 
-    public static <T> GuestApiResponse<T> success(T data) {
-        return GuestApiResponse.<T>builder()
+    public static <T> ApiResponse<T> success(T data) {
+        return ApiResponse.<T>builder()
                 .result(true)
                 .message(null)
                 .data(data)
                 .build();
     }
 
-    // Builder-based fail response
-    public static <T> GuestApiResponse<T> fail(String message) {
-        return GuestApiResponse.<T>builder()
+    public static <T> ApiResponse<T> fail(String message) {
+        return ApiResponse.<T>builder()
                 .result(false)
                 .data(null)
                 .message(message)
