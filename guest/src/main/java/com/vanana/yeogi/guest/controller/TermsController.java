@@ -2,6 +2,7 @@ package com.vanana.yeogi.guest.controller;
 
 
 import com.vanana.yeogi.base.dto.response.ApiResponse;
+import com.vanana.yeogi.guest.dto.GuestListRsDto;
 import com.vanana.yeogi.guest.dto.response.TermsRsDto;
 import com.vanana.yeogi.guest.service.TermsService;
 import lombok.RequiredArgsConstructor;
@@ -25,8 +26,8 @@ public class TermsController {
      * @return
      */
     @GetMapping("/terms")
-    public ResponseEntity<ApiResponse<?>> getAllRecentTerms() {
-        List<TermsRsDto> recentTerms = termsService.getAllRecentTerms();
+    public ResponseEntity<ApiResponse<GuestListRsDto>> getAllRecentTerms() {
+        GuestListRsDto recentTerms = termsService.getAllRecentTerms();
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -39,8 +40,9 @@ public class TermsController {
      * @return
      */
     @GetMapping("/terms/{terms_id}")
-    public ResponseEntity<ApiResponse<?>> getRecentTermsDetail(@PathVariable(name = "terms_id") Long termsId){
-        List<TermsRsDto> termsDetail = termsService.getRecentTermsDetail(termsId);
+    public ResponseEntity<ApiResponse<GuestListRsDto>> getRecentTermsDetail(
+            @PathVariable(name = "terms_id") Long termsId){
+        GuestListRsDto termsDetail = termsService.getRecentTermsDetail(termsId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)

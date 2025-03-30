@@ -1,5 +1,6 @@
 package com.vanana.yeogi.admin.controller;
 
+import com.vanana.yeogi.admin.dto.AdminListRsDto;
 import com.vanana.yeogi.admin.dto.request.AdminTermsRqDto;
 import com.vanana.yeogi.admin.dto.response.AdminTermsRsDto;
 import com.vanana.yeogi.admin.service.AdminTermsService;
@@ -9,8 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,8 +21,8 @@ public class AdminTermsController {
      * 관리자 약관 전체 조회
      */
     @GetMapping("/terms")
-    public ResponseEntity<ApiResponse<?>> getAllTerms(){
-        List<AdminTermsRsDto> allTerms = adminTermsService.getAllTerms();
+    public ResponseEntity<ApiResponse<AdminListRsDto>> getAllTerms(){
+        AdminListRsDto allTerms = adminTermsService.getAllTerms();
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(ApiResponse.success(allTerms));
@@ -34,7 +33,7 @@ public class AdminTermsController {
      * @param adminTermsRqDto 관리자 약관 요청 DTO
      */
     @PostMapping("/terms")
-    public ResponseEntity<ApiResponse<?>> addNewTerms(
+    public ResponseEntity<ApiResponse<AdminTermsRsDto>> addNewTerms(
             @NotNull @RequestBody AdminTermsRqDto adminTermsRqDto
     ) {
         AdminTermsRsDto adminTermsRsDto = adminTermsService.addNewTerms(adminTermsRqDto);
@@ -48,10 +47,9 @@ public class AdminTermsController {
      * 관리자 약관 수정
      * @param termsId 약관 id
      * @param dto 관리자 약관 요청 dto
-     * @return
      */
     @PutMapping("/terms/{terms_id}")
-    public ResponseEntity<ApiResponse<?>> updateTerms(
+    public ResponseEntity<ApiResponse<AdminTermsRsDto>> updateTerms(
             @PathVariable(name = "terms_id") Long termsId,
             @NotNull @RequestBody AdminTermsRqDto dto){
         AdminTermsRsDto modified = adminTermsService.updateTerms(termsId, dto);

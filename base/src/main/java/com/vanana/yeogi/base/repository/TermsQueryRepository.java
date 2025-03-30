@@ -32,7 +32,7 @@ public class TermsQueryRepository {
                         )
                 .from(termsEt)
                 .where(
-                    termsEt.isUseYn.eq(true),
+                    termsEt.isUsed.eq(true),
                     Expressions.list(termsEt.title, termsEt.version).in(
                             JPAExpressions
                                     .select(subTerms.title, subTerms.version.max())
@@ -43,7 +43,7 @@ public class TermsQueryRepository {
                 .fetch();
     }
 
-    public List<TermsEt> findRecentTermsDetail(Long termsId){
+    public List<TermsEt> findRecentTermsDetail(long termsId){
         return queryFactory
                 .select(Projections.fields(TermsEt.class,
                         termsEt.title,
@@ -51,7 +51,7 @@ public class TermsQueryRepository {
                 )
                 .from(termsEt)
                 .where(
-                        termsEt.isUseYn.eq(true),
+                        termsEt.isUsed.eq(true),
                         termsEt.termsId.eq(termsId)
                         )
                 .fetch();

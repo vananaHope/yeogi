@@ -4,9 +4,9 @@ import lombok.Builder;
 
 @Builder
 public record AdminTermsRsDto(
-    Long termsId,
+    long termsId,
     String title,
     String content,
-    Integer version,
-    Boolean isMandatory
+    int version,
+    boolean isMandatory
 ) {}

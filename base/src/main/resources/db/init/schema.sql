@@ -4,8 +4,8 @@ CREATE TABLE terms
     title        VARCHAR(200)          NOT NULL,
     content      TEXT                  NOT NULL,
     version      INT                   NOT NULL,
-    mandatory    VARCHAR(1)            NULL DEFAULT 'N',
-    use_yn       VARCHAR(1)            NULL DEFAULT 'N',
+    mandatory    BOOLEAN               NULL DEFAULT FALSE,
+    use_yn       BOOLEAN               NULL DEFAULT FALSE,
     input_dt     datetime              NULL,
     modify_dt    datetime              NULL
 );

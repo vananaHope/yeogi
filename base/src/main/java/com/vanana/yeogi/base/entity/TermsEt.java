@@ -1,7 +1,6 @@
 package com.vanana.yeogi.base.entity;
 
 import com.vanana.yeogi.base.entity.common.BaseEt;
-import com.vanana.yeogi.base.util.BooleanToYNConverter;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,6 +15,11 @@ import java.util.Objects;
 @Entity
 @Table(name = "terms")
 public class TermsEt extends BaseEt {
+    // 복합키로 변경
+    // 타이틀하고 버전 복합키로 변경
+    // embeddable
+    // 복합키 순서 고려
+    // 유저가 사용한 게 최신 버전 확인
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "terms_id")
@@ -27,29 +31,31 @@ public class TermsEt extends BaseEt {
     @Column(name = "content")
     private String content;
 
+    // 테이블에 없는 락을 쓸 객체를 만들고 거기에 낙관적 락 걸기
+    // @Lock optimistic lock 사용
+    // 혹은 수동으로 구현, 동작 방식 확인, 비즈니스적으로 생각해보기
+    // os 레벨의 낙관적 락
     @Version
     private Integer version;
 
-    @Convert(converter = BooleanToYNConverter.class)
     @Column(name = "mandatory")
     private Boolean isMandatory;
 
-    @Convert(converter = BooleanToYNConverter.class)
     @Column(name = "use_yn")
-    private Boolean isUseYn;
+    private Boolean isUsed;
 
     @Builder
-    public TermsEt(String title, String content, Boolean isMandatory, Boolean isUseYn) {
+    public TermsEt(String title, String content, Boolean isMandatory, Boolean isUsed) {
         this.title = title;
         this.content = content;
         this.isMandatory = isMandatory;
-        this.isUseYn = isUseYn;
+        this.isUsed = isUsed;
     }
 
-    public void updateTerms(String title, String content, Boolean isMandatory, Boolean isUseYn) {
+    public void updateTerms(String title, String content, Boolean isMandatory, Boolean isUsed) {
         if(Objects.nonNull(title)){this.title = title;}
         if(Objects.nonNull(content)){this.content = content;}
         if(Objects.nonNull(isMandatory)){this.isMandatory = isMandatory;}
-        if(Objects.nonNull(isUseYn)){this.isUseYn = isUseYn;}
+        if(Objects.nonNull(isUsed)){this.isUsed = isUsed;}
     }
 }

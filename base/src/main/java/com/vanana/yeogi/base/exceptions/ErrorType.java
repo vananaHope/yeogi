@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum ErrorType {
-
+    // 다국어 할 때 i18n
     // global 에러
     DEFAULT_ERROR(HttpStatus.BAD_REQUEST,
             new Messages()
@@ -35,6 +35,8 @@ public enum ErrorType {
 
     ;
 
+    // 내부적으로만 쓰는 코드, 메시지를 internal(상세), external(두루뭉술) 구분, 성공일 떄는 0 0 아니면 실패
+    // 응답할 때는 굳이 결과 보내지 않고 코드로 상태코드 200일 때는 성공이라서 굳이 반환값 x
     @Getter
     private final HttpStatus status;
     private final Messages messages;
