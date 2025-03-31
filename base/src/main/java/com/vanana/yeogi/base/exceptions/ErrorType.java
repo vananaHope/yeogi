@@ -3,77 +3,55 @@ package com.vanana.yeogi.base.exceptions;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
-import java.text.MessageFormat;
-import java.util.HashMap;
 import java.util.Map;
 
+@Getter
 public enum ErrorType {
-    // 다국어 할 때 i18n
+
     // global 에러
-    DEFAULT_ERROR(HttpStatus.BAD_REQUEST,
-            new Messages()
-                    .en("Bad Request")
-                    .ko("잘못된 요청")
-    ),
-    UNKNOWN_ERROR(HttpStatus.INTERNAL_SERVER_ERROR,
-            new Messages()
-                    .en("UNKNOWN ERROR")
-                    .ko("알 수 없는 오류")
-    ),
+    DEFAULT_ERROR(1000,HttpStatus.BAD_REQUEST, "잘못된 요청입니다. 다시 시도해주세요","잘못된 요청입니다. 다시 시도해주세요"),
+    UNKNOWN_ERROR(1001,HttpStatus.INTERNAL_SERVER_ERROR,"알 수 없는 에러 발생, 다시 시도해주세요","알 수 없는 에러 발생, 다시 시도해주세요"),
 
     // 약관 에러
-    TERMS_ERROR(HttpStatus.NOT_FOUND,
-            new Messages()
-                    .en("Terms Not Found")
-                    .ko("약관 데이터가 누락되었습니다.")
-    ),
-    TERMS_UPDATE_ERROR(HttpStatus.CONFLICT,
-            new Messages()
-                    .en("Terms Conflict detected, This terms was already updated")
-                    .ko("해당 약관이 이미 수정되었습니다. 다시 시도해주세요")
-    )
+    TERMS_ERROR(2000,HttpStatus.NOT_FOUND,"약관을 찾을 수 없습니다","약관 누락"),
+    TERMS_UPDATE_ERROR(2001,HttpStatus.CONFLICT,"낙관적 락으로 인한 약관 업데이트 충돌 발생","약관 업데이트 실패")
 
     ;
 
-    // 내부적으로만 쓰는 코드, 메시지를 internal(상세), external(두루뭉술) 구분, 성공일 떄는 0 0 아니면 실패
-    // 응답할 때는 굳이 결과 보내지 않고 코드로 상태코드 200일 때는 성공이라서 굳이 반환값 x
-    @Getter
+    private final int code;
     private final HttpStatus status;
-    private final Messages messages;
+    private final String internalMsg;
+    private final String externalMsg;
 
-    ErrorType(HttpStatus status, Messages messages){
+    ErrorType(int code, HttpStatus status, String internalMsg, String externalMsg){
+        this.code = code;
         this.status = status;
-        this.messages = messages;
+        this.internalMsg = internalMsg;
+        this.externalMsg = externalMsg;
     }
 
-    //TODO
-    //  - String -> Language Enum 타입으로 변경
-    //  - Default getMessage 메서드 생성
-    public String getMessage(String language, Object... args){
-        String message;
+    public String getInternalMsg(Map<String, Object> mapArgs){
+        if (mapArgs.isEmpty()) return this.internalMsg;
 
-        if("ENGLISH".equals(language)){
-            message = messages.messageMap.get("ENGLISH");
-        } else if ("KOREAN".equals(language)) {
-            message = messages.messageMap.get("KOREAN");
-        }else {
-            message = messages.messageMap.get("ENGLISH");
+        String result = this.internalMsg;
+
+        for(String key : mapArgs.keySet()){
+            result = result.replace("{" + key + "}", mapArgs.get(key).toString());
         }
 
-        return MessageFormat.format(message, args);
+        return result;
     }
 
-    private static class Messages{
-        private final Map<String, String> messageMap = new HashMap<>();
+    public String getExternalMsg(Map<String, Object> mapArgs){
+        if (mapArgs.isEmpty()) return this.externalMsg;
 
-        private Messages en(String msg){
-            messageMap.put("ENGLISH", msg);
-            return this;
+        String result = this.externalMsg;
+
+        for(String key : mapArgs.keySet()){
+            result = result.replace("{" + key + "}", mapArgs.get(key).toString());
         }
 
-        private Messages ko(String msg){
-            messageMap.put("KOREAN", msg);
-            return this;
-        }
+        return result;
     }
+
 }

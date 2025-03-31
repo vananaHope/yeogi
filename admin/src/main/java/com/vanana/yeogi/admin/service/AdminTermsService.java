@@ -5,7 +5,10 @@ import com.vanana.yeogi.admin.dto.request.AdminTermsRqDto;
 import com.vanana.yeogi.admin.dto.response.AdminTermsRsDto;
 import com.vanana.yeogi.admin.mapper.AdminTermsMapper;
 import com.vanana.yeogi.base.entity.TermsEt;
+import com.vanana.yeogi.base.exceptions.CustomException;
+import com.vanana.yeogi.base.exceptions.ErrorType;
 import com.vanana.yeogi.base.repository.TermsRepository;
+import com.vanana.yeogi.base.value.LogLevel;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.OptimisticLockException;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +38,7 @@ public class AdminTermsService {
     /**
      * 관리자 약관 추가
      * @param adminTermsRqDto 관리자 약관 요청 dto
-     * @transaction 걸 때 확인하기, 트래픽 많을 때는 부담되는 경우 있음, 직접 transaction 로직 구현하는 경우도 있음
+     * transaction 걸 때 확인하기, 트래픽 많을 때는 부담되는 경우 있음, 직접 transaction 로직 구현하는 경우도 있음
      * 필요한 지 판단해서 사용하기, msa/nosql 때문에 필요할때만 사용
      */
     @Transactional
@@ -59,7 +62,11 @@ public class AdminTermsService {
 
             return adminTermsMapper.toAdminTermsRsDto(termsEt);
         }catch (OptimisticLockException e){
-            throw new OptimisticLockException("약관 수정 충돌 발생");
+            throw CustomException.builder()
+                    .errorType(ErrorType.TERMS_UPDATE_ERROR)
+                    .logLevel(LogLevel.WARN)
+                    .orgException(e)
+                    .build();
         }
     }
 

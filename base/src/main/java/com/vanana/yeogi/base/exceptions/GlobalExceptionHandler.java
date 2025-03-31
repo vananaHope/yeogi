@@ -1,47 +1,40 @@
 package com.vanana.yeogi.base.exceptions;
 
 import com.vanana.yeogi.base.dto.response.ApiResponse;
-import org.springframework.http.HttpStatus;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+@Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
     //TODO
-    //  - AccssFilter 구현
-    //  - 요청 정보에서 언어 정보 가져오기
-    @ExceptionHandler(BusinessException.class)
-    public ResponseEntity<ApiResponse<?>> handleBusinessException(BusinessException ex){
-        String message = "";
-        HttpStatus status;
+    //  - AccessFilter 구현
+    @ExceptionHandler(CustomException.class)
+    public ResponseEntity<ApiResponse<?>> handleCustomException(CustomException ex){
+        ErrorType errorType = ex.getErrorType();
 
-        try{
-            if(ex.getErrorType() == null){
-                message = ex.getMessage();
-                status = ErrorType.DEFAULT_ERROR.getStatus();
-            }else{
-                ErrorType errorType = ex.getErrorType();
-                Object[] args = ex.getArgs();
+        String internalMsg = errorType.getInternalMsg(ex.getMapArgs());
+        String externalMsg = errorType.getExternalMsg(ex.getMapArgs());
 
-                message = errorType.getMessage("KOREAN",args);
-                status = errorType.getStatus();
-            }
-        }catch(Exception e){
-            message = ErrorType.DEFAULT_ERROR.getMessage("KOREAN");
-            status = ErrorType.DEFAULT_ERROR.getStatus();
+        switch (ex.getLogLevel()){
+            case DEBUG -> log.debug(internalMsg, ex.getOrgException(), ex);
+            case INFO -> log.info(internalMsg, ex.getOrgException(), ex);
+            case WARN -> log.warn(internalMsg, ex.getOrgException(), ex);
+            case ERROR -> log.error(internalMsg, ex.getOrgException(), ex);
         }
 
         return ResponseEntity
-                .status(status)
-                .body(ApiResponse.fail(message));
+                .status(errorType.getStatus())
+                .body(ApiResponse.fail(errorType.getCode(), externalMsg));
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<?>> handleException(Exception ex){
         return ResponseEntity
-                .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(ApiResponse.fail(ex.getMessage()));
+                .status(ErrorType.DEFAULT_ERROR.getStatus())
+                .body(ApiResponse.fail(ErrorType.DEFAULT_ERROR.getCode(), ErrorType.DEFAULT_ERROR.getExternalMsg()));
     }
 }

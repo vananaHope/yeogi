@@ -10,20 +10,22 @@ import lombok.Data;
 public class ApiResponse<T> {
     private boolean result;
     private String message;
+    private int code;
     private T data;
 
     public static <T> ApiResponse<T> success(T data) {
         return ApiResponse.<T>builder()
                 .result(true)
-                .message(null)
                 .data(data)
+                .message(null)
                 .build();
     }
 
-    public static <T> ApiResponse<T> fail(String message) {
+    public static <T> ApiResponse<T> fail(int code,String message) {
         return ApiResponse.<T>builder()
                 .result(false)
                 .data(null)
+                .code(code)
                 .message(message)
                 .build();
     }
