@@ -2,18 +2,28 @@ package com.vanana.yeogi.base.entity.embeddable;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-import jakarta.persistence.Version;
-import lombok.Data;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
-@Data
 @Embeddable
+@Getter
+@NoArgsConstructor
+@EqualsAndHashCode
 public class TermsId implements Serializable {
 
     @Column(name = "title")
     private String title;
 
-    @Version
-    private Integer version;
+    @Column(name = "version")
+    private String version;
+
+    @Builder
+    public TermsId(String title, String version) {
+        this.title = title;
+        this.version = version;
+    }
 }

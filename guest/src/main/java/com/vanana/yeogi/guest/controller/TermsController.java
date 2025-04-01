@@ -3,7 +3,6 @@ package com.vanana.yeogi.guest.controller;
 
 import com.vanana.yeogi.base.dto.response.ApiResponse;
 import com.vanana.yeogi.guest.dto.GuestListRsDto;
-import com.vanana.yeogi.guest.dto.response.TermsRsDto;
 import com.vanana.yeogi.guest.service.TermsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

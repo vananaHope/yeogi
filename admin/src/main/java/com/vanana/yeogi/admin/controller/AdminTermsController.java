@@ -45,14 +45,12 @@ public class AdminTermsController {
 
     /**
      * 관리자 약관 수정
-     * @param termsId 약관 id
      * @param dto 관리자 약관 요청 dto
      */
     @PutMapping("/terms/{terms_id}")
     public ResponseEntity<ApiResponse<AdminTermsRsDto>> updateTerms(
-            @PathVariable(name = "terms_id") Long termsId,
             @NotNull @RequestBody AdminTermsRqDto dto){
-        AdminTermsRsDto modified = adminTermsService.updateTerms(termsId, dto);
+        AdminTermsRsDto modified = adminTermsService.updateTerms(dto);
 
         return ResponseEntity
                 .status(HttpStatus.OK)

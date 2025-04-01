@@ -1,6 +1,7 @@
 package com.vanana.yeogi.base.entity;
 
 import com.vanana.yeogi.base.entity.common.BaseEt;
+import com.vanana.yeogi.base.entity.embeddable.TermsId;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,18 +16,14 @@ import java.util.Objects;
 @Entity
 @Table(name = "terms")
 public class TermsEt extends BaseEt {
-    // 복합키로 변경
-    // 타이틀하고 버전 복합키로 변경
-    // embeddable
-    // 복합키 순서 고려
-    // 유저가 사용한 게 최신 버전 확인
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "terms_id")
-    private Long termsId;
 
-    @Column(name = "title")
-    private String title;
+    @EmbeddedId
+    @Column(name = "terms_id")
+    private TermsId termsId;
+
+    @Version
+    @Column(name = "lock_version")
+    private Integer lockVersion;
 
     @Column(name = "content")
     private String content;
@@ -35,8 +32,6 @@ public class TermsEt extends BaseEt {
     // @Lock optimistic lock 사용
     // 혹은 수동으로 구현, 동작 방식 확인, 비즈니스적으로 생각해보기
     // os 레벨의 낙관적 락
-    @Version
-    private Integer version;
 
     @Column(name = "mandatory")
     private Boolean isMandatory;
@@ -45,15 +40,15 @@ public class TermsEt extends BaseEt {
     private Boolean isUsed;
 
     @Builder
-    public TermsEt(String title, String content, Boolean isMandatory, Boolean isUsed) {
-        this.title = title;
+    public TermsEt(TermsId termsId, String content, Boolean isMandatory, Boolean isUsed) {
+        this.termsId = termsId;
         this.content = content;
         this.isMandatory = isMandatory;
         this.isUsed = isUsed;
     }
 
-    public void updateTerms(String title, String content, Boolean isMandatory, Boolean isUsed) {
-        if(Objects.nonNull(title)){this.title = title;}
+    public void updateTerms(TermsId termsId, String content, Boolean isMandatory, Boolean isUsed) {
+        if(Objects.nonNull(termsId)){this.termsId = termsId;}
         if(Objects.nonNull(content)){this.content = content;}
         if(Objects.nonNull(isMandatory)){this.isMandatory = isMandatory;}
         if(Objects.nonNull(isUsed)){this.isUsed = isUsed;}

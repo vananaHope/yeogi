@@ -49,16 +49,18 @@ public class AdminTermsService {
 
     /**
      * 관리자 약관 수정
-     * @param termsId 약관 id
      * @param dto 관리자 약관 요청 dto
      */
     @Transactional
-    public AdminTermsRsDto updateTerms(Long termsId, AdminTermsRqDto dto){
+    public AdminTermsRsDto updateTerms(AdminTermsRqDto dto){
         try {
-            TermsEt termsEt = termsRepository.findById(termsId)
-                    .orElseThrow(() -> new IllegalArgumentException("Invalid terms id: " + termsId));
+            TermsEt termsEt = termsRepository.findByTermsId(dto.toTermsId())
+                    .orElseThrow(()-> CustomException.builder()
+                            .errorType(ErrorType.TERMS_ERROR)
+                            .logLevel(LogLevel.ERROR)
+                            .build());
 
-            termsEt.updateTerms(dto.title(), dto.content(), dto.isMandatory(), dto.isUsed());
+            termsEt.updateTerms(dto.toTermsId(), dto.content(), dto.isMandatory(), dto.isUsed());
 
             return adminTermsMapper.toAdminTermsRsDto(termsEt);
         }catch (OptimisticLockException e){

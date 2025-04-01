@@ -6,9 +6,8 @@ import lombok.Builder;
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record TermsRsDto(
-    long termsId,
     String title,
     String content,
-    int version,
+    String version,
     boolean isMandatory
 ) {}

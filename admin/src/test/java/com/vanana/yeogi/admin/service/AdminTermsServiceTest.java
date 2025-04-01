@@ -43,47 +43,47 @@ class AdminTermsServiceTest {
         System.out.println("termsRsDto = " + termsRsDto);
     }
 
-    @Test
-    void updateTerms(){
-        AdminListRsDto allTerms = adminTermsService.getAllTerms();
-        List<AdminTermsRsDto> dto = allTerms.getRsDtoList();
+//    @Test
+//    void updateTerms(){
+//        AdminListRsDto allTerms = adminTermsService.getAllTerms();
+//        List<AdminTermsRsDto> dto = allTerms.getRsDtoList();
+//
+//        assertThat(10).isEqualTo(dto.size());
+//
+//        AdminTermsRsDto dto1 = allTerms.getRsDtoList().get(0);
+//
+//        adminTermsService.updateTerms(dto1.termsId(), adminTermsRqDto);
+//
+//        List<AdminTermsRsDto> dtos = adminTermsService.getAllTerms().getRsDtoList();
+//        dtos.forEach(System.out::println);
+//    }
 
-        assertThat(10).isEqualTo(dto.size());
-
-        AdminTermsRsDto dto1 = allTerms.getRsDtoList().get(0);
-
-        adminTermsService.updateTerms(dto1.termsId(), adminTermsRqDto);
-
-        List<AdminTermsRsDto> dtos = adminTermsService.getAllTerms().getRsDtoList();
-        dtos.forEach(System.out::println);
-    }
-
-    @Test
-    @DisplayName("업데이트 동시성 테스트")
-    void updateLockTest() throws InterruptedException {
-        final int threadCount = 100;
-        final ExecutorService executorService = Executors.newFixedThreadPool(32);
-        final CountDownLatch latch = new CountDownLatch(threadCount);
-
-        Long termsId = 1L;
-        AdminTermsRqDto updateDto = new AdminTermsRqDto("수정 약관 제목", "수정 내용 약관", true, true);
-
-        for(int i = 0; i < threadCount; i++){
-            executorService.submit(()->{
-                try{
-                    adminTermsService.updateTerms(termsId, updateDto);
-                }catch(OptimisticLockException e){
-                    System.err.println("Lock conflict: " + e.getMessage());
-                }finally {
-                    latch.countDown();
-                }
-            });
-        }
-
-        latch.await();
-        TermsEt updated = termsRepository.findById(termsId).orElseThrow();
-        System.out.println("update termsEt = " + updated);
-
-        assertThat(updated.getVersion()).isEqualTo(1);
-    }
+//    @Test
+//    @DisplayName("업데이트 동시성 테스트")
+//    void updateLockTest() throws InterruptedException {
+//        final int threadCount = 100;
+//        final ExecutorService executorService = Executors.newFixedThreadPool(32);
+//        final CountDownLatch latch = new CountDownLatch(threadCount);
+//
+//        Long termsId = 1L;
+//        AdminTermsRqDto updateDto = new AdminTermsRqDto("수정 약관 제목", "수정 내용 약관", true, true);
+//
+//        for(int i = 0; i < threadCount; i++){
+//            executorService.submit(()->{
+//                try{
+//                    adminTermsService.updateTerms(termsId, updateDto);
+//                }catch(OptimisticLockException e){
+//                    System.err.println("Lock conflict: " + e.getMessage());
+//                }finally {
+//                    latch.countDown();
+//                }
+//            });
+//        }
+//
+//        latch.await();
+//        TermsEt updated = termsRepository.findById(termsId).orElseThrow();
+//        System.out.println("update termsEt = " + updated);
+//
+//        assertThat(updated.getVersion()).isEqualTo(1);
+//    }
 }

@@ -21,7 +21,7 @@ public class ApiResponse<T> {
                 .build();
     }
 
-    public static <T> ApiResponse<T> fail(int code,String message) {
+    public static <T> ApiResponse<T> fail(int code, String message) {
         return ApiResponse.<T>builder()
                 .result(false)
                 .data(null)
