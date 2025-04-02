@@ -8,10 +8,10 @@ import java.util.Map;
 
 @Getter
 public class CustomException extends RuntimeException{
-    private ErrorType errorType;
-    private Exception orgException;
-    private LogLevel logLevel;
-    private Map<String, Object> mapArgs;
+    private final ErrorType errorType;
+    private final Exception orgException;
+    private final LogLevel logLevel;
+    private final Map<String, Object> mapArgs;
 
     @Builder
     public CustomException(ErrorType errorType,

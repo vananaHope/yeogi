@@ -24,22 +24,25 @@ public class AdminTermsService {
     private final TermsRepository termsRepository;
     private final AdminTermsMapper adminTermsMapper;
     private final EntityManager entityManager;
+
     /**
-     * 약관 전체 조회
-     * 페이징 및 버전별 그룹핑, 필터링
+     * 관리자용 약관 전체 조회
      */
+    //TODO
+    //  - 모든 버전 약관 조회
+    //  - 버전별 그룹핑
     public AdminListRsDto getAllTerms(){
         List<TermsEt> termsEtList = termsRepository.findAll();
         List<AdminTermsRsDto> termsRsDtoList = adminTermsMapper.toAdminTermsRsDtoList(termsEtList);
 
-        return AdminListRsDto.builder().rsDtoList(termsRsDtoList).build();
+        return AdminListRsDto.builder()
+                .rsDtoList(termsRsDtoList)
+                .build();
     }
 
     /**
      * 관리자 약관 추가
      * @param adminTermsRqDto 관리자 약관 요청 dto
-     * transaction 걸 때 확인하기, 트래픽 많을 때는 부담되는 경우 있음, 직접 transaction 로직 구현하는 경우도 있음
-     * 필요한 지 판단해서 사용하기, msa/nosql 때문에 필요할때만 사용
      */
     @Transactional
     public AdminTermsRsDto addNewTerms(AdminTermsRqDto adminTermsRqDto) {
@@ -56,9 +59,9 @@ public class AdminTermsService {
         try {
             TermsEt termsEt = termsRepository.findByTermsId(dto.toTermsId())
                     .orElseThrow(()-> CustomException.builder()
-                            .errorType(ErrorType.TERMS_ERROR)
-                            .logLevel(LogLevel.ERROR)
-                            .build());
+                                            .errorType(ErrorType.TERMS_ERROR)
+                                            .logLevel(LogLevel.ERROR)
+                                            .build());
 
             termsEt.updateTerms(dto.toTermsId(), dto.content(), dto.isMandatory(), dto.isUsed());
 

@@ -28,11 +28,6 @@ public class TermsEt extends BaseEt {
     @Column(name = "content")
     private String content;
 
-    // 테이블에 없는 락을 쓸 객체를 만들고 거기에 낙관적 락 걸기
-    // @Lock optimistic lock 사용
-    // 혹은 수동으로 구현, 동작 방식 확인, 비즈니스적으로 생각해보기
-    // os 레벨의 낙관적 락
-
     @Column(name = "mandatory")
     private Boolean isMandatory;
 

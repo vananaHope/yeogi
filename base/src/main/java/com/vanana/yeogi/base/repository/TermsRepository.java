@@ -13,4 +13,5 @@ public interface TermsRepository extends JpaRepository<TermsEt, TermsId> {
 
     @Lock(LockModeType.OPTIMISTIC)
     Optional<TermsEt> findByTermsId(TermsId id);
+
 }

@@ -15,10 +15,10 @@ import java.io.Serializable;
 @EqualsAndHashCode
 public class TermsId implements Serializable {
 
-    @Column(name = "title")
+    @Column(name = "title", updatable = false, nullable = false)
     private String title;
 
-    @Column(name = "version")
+    @Column(name = "version", updatable = false, nullable = false)
     private String version;
 
     @Builder
