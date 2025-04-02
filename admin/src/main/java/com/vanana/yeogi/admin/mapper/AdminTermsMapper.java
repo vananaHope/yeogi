@@ -1,7 +1,8 @@
 package com.vanana.yeogi.admin.mapper;
 
 import com.vanana.yeogi.admin.dto.request.AdminTermsRqDto;
-import com.vanana.yeogi.admin.dto.response.AdminTermsRsDto;
+import com.vanana.yeogi.admin.dto.response.AdminTermsDetailDto;
+import com.vanana.yeogi.admin.dto.response.AdminTermsSummaryDto;
 import com.vanana.yeogi.base.entity.TermsEt;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -27,7 +28,7 @@ public interface AdminTermsMapper {
      */
      @Mapping(source = "termsId.title", target = "title")
      @Mapping(source = "termsId.version", target = "version")
-     AdminTermsRsDto toAdminTermsRsDto(TermsEt termsEt);
+     AdminTermsDetailDto toAdminTermsDetailDto(TermsEt termsEt);
 
-     List<AdminTermsRsDto> toAdminTermsRsDtoList(List<TermsEt> termsEtList);
+     List<AdminTermsSummaryDto> toAdminTermsSummaryDtoList(List<TermsEt> termsEtList);
 }

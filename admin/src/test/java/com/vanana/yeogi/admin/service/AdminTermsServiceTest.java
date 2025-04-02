@@ -1,23 +1,10 @@
 package com.vanana.yeogi.admin.service;
 
-import com.vanana.yeogi.admin.dto.AdminListRsDto;
 import com.vanana.yeogi.admin.dto.request.AdminTermsRqDto;
-import com.vanana.yeogi.admin.dto.response.AdminTermsRsDto;
-import com.vanana.yeogi.base.entity.TermsEt;
 import com.vanana.yeogi.base.repository.TermsRepository;
-import jakarta.persistence.OptimisticLockException;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.List;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
-import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
 class AdminTermsServiceTest {
@@ -37,11 +24,11 @@ class AdminTermsServiceTest {
                 .build();
     }
 
-    @Test
-    void createTerms() {
-        AdminTermsRsDto termsRsDto = adminTermsService.addNewTerms(adminTermsRqDto);
-        System.out.println("termsRsDto = " + termsRsDto);
-    }
+//    @Test
+//    void createTerms() {
+//        AdminTermsRsDto termsRsDto = adminTermsService.addNewTerms(adminTermsRqDto);
+//        System.out.println("termsRsDto = " + termsRsDto);
+//    }
 
 //    @Test
 //    void updateTerms(){

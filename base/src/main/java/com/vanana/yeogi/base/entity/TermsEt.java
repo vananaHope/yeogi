@@ -18,7 +18,6 @@ import java.util.Objects;
 public class TermsEt extends BaseEt {
 
     @EmbeddedId
-    @Column(name = "terms_id")
     private TermsId termsId;
 
     @Version

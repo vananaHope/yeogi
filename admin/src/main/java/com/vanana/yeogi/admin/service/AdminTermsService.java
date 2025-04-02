@@ -1,10 +1,11 @@
 package com.vanana.yeogi.admin.service;
 
-import com.vanana.yeogi.admin.dto.AdminListRsDto;
+import com.vanana.yeogi.admin.dto.response.AdminListRsDto;
 import com.vanana.yeogi.admin.dto.request.AdminTermsRqDto;
-import com.vanana.yeogi.admin.dto.response.AdminTermsRsDto;
+import com.vanana.yeogi.admin.dto.response.AdminTermsSummaryDto;
 import com.vanana.yeogi.admin.mapper.AdminTermsMapper;
 import com.vanana.yeogi.base.entity.TermsEt;
+import com.vanana.yeogi.base.entity.embeddable.TermsId;
 import com.vanana.yeogi.base.exceptions.CustomException;
 import com.vanana.yeogi.base.exceptions.ErrorType;
 import com.vanana.yeogi.base.repository.TermsRepository;
@@ -26,17 +27,14 @@ public class AdminTermsService {
     private final EntityManager entityManager;
 
     /**
-     * 관리자용 약관 전체 조회
+     * 관리자용 약관 전체 목록 조회
      */
-    //TODO
-    //  - 모든 버전 약관 조회
-    //  - 버전별 그룹핑
     public AdminListRsDto getAllTerms(){
         List<TermsEt> termsEtList = termsRepository.findAll();
-        List<AdminTermsRsDto> termsRsDtoList = adminTermsMapper.toAdminTermsRsDtoList(termsEtList);
+        List<AdminTermsSummaryDto> termsSummaryList = adminTermsMapper.toAdminTermsSummaryDtoList(termsEtList);
 
         return AdminListRsDto.builder()
-                .rsDtoList(termsRsDtoList)
+                .termsSummary(termsSummaryList)
                 .build();
     }
 
@@ -45,9 +43,11 @@ public class AdminTermsService {
      * @param adminTermsRqDto 관리자 약관 요청 dto
      */
     @Transactional
-    public AdminTermsRsDto addNewTerms(AdminTermsRqDto adminTermsRqDto) {
+    public TermsId addNewTerms(AdminTermsRqDto adminTermsRqDto) {
         TermsEt termsEt = adminTermsMapper.toTermsEt(adminTermsRqDto);
-        return adminTermsMapper.toAdminTermsRsDto(termsRepository.save(termsEt));
+        TermsEt saved = termsRepository.save(termsEt);
+
+        return saved.getTermsId();
     }
 
     /**
@@ -55,7 +55,7 @@ public class AdminTermsService {
      * @param dto 관리자 약관 요청 dto
      */
     @Transactional
-    public AdminTermsRsDto updateTerms(AdminTermsRqDto dto){
+    public TermsId updateTerms(AdminTermsRqDto dto){
         try {
             TermsEt termsEt = termsRepository.findByTermsId(dto.toTermsId())
                     .orElseThrow(()-> CustomException.builder()
@@ -65,7 +65,7 @@ public class AdminTermsService {
 
             termsEt.updateTerms(dto.toTermsId(), dto.content(), dto.isMandatory(), dto.isUsed());
 
-            return adminTermsMapper.toAdminTermsRsDto(termsEt);
+            return termsEt.getTermsId();
         }catch (OptimisticLockException e){
             throw CustomException.builder()
                     .errorType(ErrorType.TERMS_UPDATE_ERROR)
