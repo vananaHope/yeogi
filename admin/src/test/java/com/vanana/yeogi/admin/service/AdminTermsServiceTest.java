@@ -1,7 +1,7 @@
 package com.vanana.yeogi.admin.service;
 
 import com.vanana.yeogi.admin.dto.request.AdminTermsRqDto;
-import com.vanana.yeogi.base.repository.TermsRepository;
+import com.vanana.yeogi.base.repository.terms.TermsRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -3,7 +3,7 @@ package com.vanana.yeogi.admin.mapper;
 import com.vanana.yeogi.admin.dto.request.AdminTermsRqDto;
 import com.vanana.yeogi.admin.dto.response.AdminTermsDetailDto;
 import com.vanana.yeogi.admin.dto.response.AdminTermsSummaryDto;
-import com.vanana.yeogi.base.entity.TermsEt;
+import com.vanana.yeogi.base.entity.terms.TermsEt;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;

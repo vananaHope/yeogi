@@ -5,6 +5,7 @@ import lombok.Builder;
 import java.util.List;
 
 @Builder
-public record AdminListRsDto(
-    List<AdminTermsSummaryDto> termsSummary
+public record AdminDetailWithVersion(
+    AdminTermsDetailDto detail,
+    List<String> versionList
 ) {}

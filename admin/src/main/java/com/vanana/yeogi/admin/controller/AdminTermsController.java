@@ -1,7 +1,9 @@
 package com.vanana.yeogi.admin.controller;
 
+import com.vanana.yeogi.admin.dto.response.AdminDetailWithVersion;
 import com.vanana.yeogi.admin.dto.response.AdminListRsDto;
 import com.vanana.yeogi.admin.dto.request.AdminTermsRqDto;
+import com.vanana.yeogi.admin.dto.response.AdminTermsDetailDto;
 import com.vanana.yeogi.admin.service.AdminTermsService;
 import com.vanana.yeogi.base.dto.response.ApiResponse;
 import com.vanana.yeogi.base.entity.embeddable.TermsId;
@@ -10,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -31,7 +35,23 @@ public class AdminTermsController {
     /**
      * 관리자 약관 상세 내용 및 버전 리스트 조회
      */
+    @GetMapping("/terms/detail")
+    public ResponseEntity<ApiResponse<AdminDetailWithVersion>> getDetailTermsWithVersions(
+        @NotNull @RequestBody AdminTermsRqDto dto
+    )
+    {
+        AdminTermsDetailDto detailTerms = adminTermsService.getDetailTerms(dto.toTermsId());
+        List<String> versionList = adminTermsService.getVersionList(dto.title());
 
+        AdminDetailWithVersion detailWithVersion = AdminDetailWithVersion.builder()
+                .detail(detailTerms)
+                .versionList(versionList)
+                .build();
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ApiResponse.success(detailWithVersion));
+    }
 
     /**
      * 관리자 약관 저장

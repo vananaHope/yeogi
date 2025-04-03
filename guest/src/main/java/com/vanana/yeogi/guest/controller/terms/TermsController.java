@@ -1,9 +1,9 @@
-package com.vanana.yeogi.guest.controller;
+package com.vanana.yeogi.guest.controller.terms;
 
 
 import com.vanana.yeogi.base.dto.response.ApiResponse;
-import com.vanana.yeogi.guest.dto.GuestListRsDto;
-import com.vanana.yeogi.guest.service.TermsService;
+import com.vanana.yeogi.guest.dto.response.terms.TermsListRsDto;
+import com.vanana.yeogi.guest.service.terms.TermsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +22,8 @@ public class TermsController {
      * 최신 버전 약관 목록 조회
      */
     @GetMapping("/terms")
-    public ResponseEntity<ApiResponse<GuestListRsDto>> getAllRecentTerms() {
-        GuestListRsDto recentTerms = termsService.getAllRecentTerms();
+    public ResponseEntity<ApiResponse<TermsListRsDto>> getAllRecentTerms() {
+        TermsListRsDto recentTerms = termsService.getAllRecentTerms();
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -35,9 +35,9 @@ public class TermsController {
      * @param title 약관 키 값
      */
     @GetMapping("/terms/detail")
-    public ResponseEntity<ApiResponse<GuestListRsDto>> getRecentTermsDetail(
+    public ResponseEntity<ApiResponse<TermsListRsDto>> getRecentTermsDetail(
             @RequestParam(name = "title") String title){
-        GuestListRsDto termsDetail = termsService.getRecentTermsDetail(title);
+        TermsListRsDto termsDetail = termsService.getRecentTermsDetail(title);
 
         return ResponseEntity
                 .status(HttpStatus.OK)

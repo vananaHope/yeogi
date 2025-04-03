@@ -1,11 +1,11 @@
-package com.vanana.yeogi.base.repository;
+package com.vanana.yeogi.base.repository.terms;
 
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.vanana.yeogi.base.entity.QTermsEt;
-import com.vanana.yeogi.base.entity.TermsEt;
+import com.vanana.yeogi.base.entity.terms.TermsEt;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

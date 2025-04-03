@@ -1,4 +1,4 @@
-package com.vanana.yeogi.base.entity;
+package com.vanana.yeogi.base.entity.terms;
 
 import com.vanana.yeogi.base.entity.common.BaseEt;
 import com.vanana.yeogi.base.entity.embeddable.TermsId;
@@ -41,10 +41,7 @@ public class TermsEt extends BaseEt {
         this.isUsed = isUsed;
     }
 
-    public void updateTerms(TermsId termsId, String content, Boolean isMandatory, Boolean isUsed) {
-        if(Objects.nonNull(termsId)){this.termsId = termsId;}
-        if(Objects.nonNull(content)){this.content = content;}
-        if(Objects.nonNull(isMandatory)){this.isMandatory = isMandatory;}
+    public void setUsed(Boolean isUsed) {
         if(Objects.nonNull(isUsed)){this.isUsed = isUsed;}
     }
 }

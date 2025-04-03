@@ -1,7 +1,7 @@
-package com.vanana.yeogi.guest.mapper;
+package com.vanana.yeogi.guest.mapper.terms;
 
-import com.vanana.yeogi.base.entity.TermsEt;
-import com.vanana.yeogi.guest.dto.response.TermsRsDto;
+import com.vanana.yeogi.base.entity.terms.TermsEt;
+import com.vanana.yeogi.guest.dto.response.terms.TermsRsDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
