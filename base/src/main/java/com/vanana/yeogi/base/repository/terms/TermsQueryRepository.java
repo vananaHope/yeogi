@@ -4,14 +4,14 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.vanana.yeogi.base.entity.QTermsEt;
+import com.vanana.yeogi.base.entity.terms.QTermsEt;
 import com.vanana.yeogi.base.entity.terms.TermsEt;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static com.vanana.yeogi.base.entity.QTermsEt.termsEt;
+import static com.vanana.yeogi.base.entity.terms.QTermsEt.termsEt;
 
 @Repository
 @RequiredArgsConstructor

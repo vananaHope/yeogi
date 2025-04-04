@@ -8,5 +8,4 @@ public record AdminTermsSummaryDto(
         String version,
         boolean isMandatory,
         boolean isUsed
-) {
-}
+) {}

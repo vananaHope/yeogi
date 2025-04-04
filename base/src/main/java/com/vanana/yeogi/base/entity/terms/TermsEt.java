@@ -8,8 +8,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.util.Objects;
-
 @Getter
 @ToString
 @NoArgsConstructor
@@ -41,7 +39,7 @@ public class TermsEt extends BaseEt {
         this.isUsed = isUsed;
     }
 
-    public void setUsed(Boolean isUsed) {
-        if(Objects.nonNull(isUsed)){this.isUsed = isUsed;}
+    public void setUsed(boolean isUsed) {
+        this.isUsed = isUsed;
     }
 }
