@@ -15,8 +15,10 @@ public enum ErrorType {
     // 약관 에러
     TERMS_ERROR(2000,HttpStatus.NOT_FOUND,"약관을 찾을 수 없습니다","약관 누락"),
     TERMS_UPDATE_ERROR(2001,HttpStatus.CONFLICT,"낙관적 락으로 인한 약관 업데이트 충돌 발생","약관 업데이트 실패"),
-    TERMS_NOT_MATCH(2002,HttpStatus.BAD_REQUEST,"약관이 최신 버전이 아닙니다.","약관 버전 확인 필요")
+    TERMS_NOT_MATCH(2002,HttpStatus.BAD_REQUEST,"약관이 최신 버전이 아닙니다.","약관 버전 확인 필요"),
 
+    // 휴대폰 인증 에러
+    PHONE_EXCEED_LIMIT(3000,HttpStatus.FORBIDDEN,"휴대폰 인증번호 전송을 10초 후 다시 시도해주세요","인증번호 전송 실패")
 
     ;
 

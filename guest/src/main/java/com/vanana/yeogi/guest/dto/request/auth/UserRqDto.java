@@ -9,7 +9,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.Calendar;
+import java.util.List;
 import java.util.regex.Pattern;
 
 @Getter
@@ -36,6 +36,11 @@ public class UserRqDto implements GuestUserValidate {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-mm-dd", timezone = "Asia/Seoul")
     private LocalDate birthday;
 
+    /**
+     * 사용자 동의한 약관 목록
+     */
+    private List<UserAgreeRqDto> userAgreeRqDtoList;
+
     @Override
     public boolean isPasswordMatching() {
         return password.equals(confirmPassword);
@@ -49,13 +54,21 @@ public class UserRqDto implements GuestUserValidate {
 
     @Override
     public boolean isAdult() {
-        Calendar current = Calendar.getInstance();
+        LocalDate today = LocalDate.now();
 
-        int currentYear = current.get(Calendar.YEAR);
-        int currentMonth = current.get(Calendar.MONTH);
-        int currentDay = current.get(Calendar.DAY_OF_MONTH);
+        int age = today.getYear() - birthday.getYear();
 
-        return false;
+        int currentDay = today.getDayOfMonth();
+        int currentMonth = today.getMonth().getValue();
+
+        int birthDayOfMonth = birthday.getDayOfMonth();
+        int birthdayMonth = birthday.getMonth().getValue();
+
+        if(birthdayMonth * 100 + birthDayOfMonth > currentMonth * 100 + currentDay){
+            age--;
+        }
+
+        return age >= 19;
     }
 
 

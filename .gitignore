@@ -35,3 +35,8 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### cool sms ###
+base/src/main/resources/application-sms.properties
+application-sms.properties
+
