@@ -6,6 +6,7 @@ import com.vanana.yeogi.base.repository.auth.SmsRepository;
 import com.vanana.yeogi.base.util.SmsUtil;
 import com.vanana.yeogi.base.value.LogLevel;
 import com.vanana.yeogi.guest.dto.request.auth.SmsSendRqDto;
+import com.vanana.yeogi.guest.dto.request.auth.SmsVerifyRqDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -38,5 +39,31 @@ public class SmsService {
         String sendCertCode = smsUtil.sendSms(rqDto.phoneNumber());
         smsRepository.saveCertLimit(phoneNumber);
         smsRepository.saveCertCode(phoneNumber, sendCertCode);
+    }
+
+    /**
+     * 휴대폰 인증번호 검증
+     * @param rqDto 검증 dto
+     */
+    public void verifySms(SmsVerifyRqDto rqDto){
+        String phoneNumber = rqDto.phoneNumber();
+        String certCode = rqDto.certCode();
+
+        if(!smsRepository.hasCertCode(phoneNumber)){
+            throw CustomException.builder()
+                    .errorType(ErrorType.PHONE_CERT_NOT_FOUND)
+                    .logLevel(LogLevel.INFO)
+                    .build();
+        }
+
+        if(!certCode.equals(smsRepository.getSmsCertCode(phoneNumber))){
+            throw CustomException.builder()
+                    .errorType(ErrorType.PHONE_CERT_NOT_MATCH)
+                    .logLevel(LogLevel.INFO)
+                    .build();
+        }
+
+        smsRepository.deleteCertCode(phoneNumber);
+
     }
 }

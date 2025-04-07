@@ -41,6 +41,9 @@ public class UserRqDto implements GuestUserValidate {
      */
     private List<UserAgreeRqDto> userAgreeRqDtoList;
 
+    /**
+     * 회원가입 Guest 체크로직
+     */
     @Override
     public boolean isPasswordMatching() {
         return password.equals(confirmPassword);

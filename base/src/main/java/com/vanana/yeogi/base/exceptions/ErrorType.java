@@ -18,8 +18,9 @@ public enum ErrorType {
     TERMS_NOT_MATCH(2002,HttpStatus.BAD_REQUEST,"약관이 최신 버전이 아닙니다.","약관 버전 확인 필요"),
 
     // 휴대폰 인증 에러
-    PHONE_EXCEED_LIMIT(3000,HttpStatus.FORBIDDEN,"휴대폰 인증번호 전송을 10초 후 다시 시도해주세요","인증번호 전송 실패")
-
+    PHONE_EXCEED_LIMIT(3000,HttpStatus.FORBIDDEN,"휴대폰 인증번호 전송을 10초 후 다시 시도해주세요","인증번호 전송 실패"),
+    PHONE_CERT_NOT_FOUND(3001,HttpStatus.FORBIDDEN,"휴대폰 인증번호가 존재하지 않습니다.","인증번호 검증 실패"),
+    PHONE_CERT_NOT_MATCH(3002,HttpStatus.FORBIDDEN,"인증번호가 일치하지 않습니다.","인증번호 검증 실패")
     ;
 
     private final int code;

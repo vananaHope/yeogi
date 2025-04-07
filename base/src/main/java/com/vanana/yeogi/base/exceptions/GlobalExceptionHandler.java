@@ -10,8 +10,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    //TODO
-    //  - AccessFilter 구현
+    /**
+     * CustomerException 처리
+     */
     @ExceptionHandler(CustomException.class)
     public ResponseEntity<ApiResponse<?>> handleCustomException(CustomException ex){
         ErrorType errorType = ex.getErrorType();
@@ -31,10 +32,13 @@ public class GlobalExceptionHandler {
                 .body(ApiResponse.fail(errorType.getCode(), externalMsg));
     }
 
+    /**
+     * 모든 미확인 에러 처리
+     */
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<?>> handleException(Exception ex){
         return ResponseEntity
-                .status(ErrorType.DEFAULT_ERROR.getStatus())
-                .body(ApiResponse.fail(ErrorType.DEFAULT_ERROR.getCode(), ErrorType.DEFAULT_ERROR.getExternalMsg()));
+                .status(ErrorType.UNKNOWN_ERROR.getStatus())
+                .body(ApiResponse.fail(ErrorType.UNKNOWN_ERROR.getCode(), ErrorType.UNKNOWN_ERROR.getExternalMsg()));
     }
 }
