@@ -1,4 +1,7 @@
 package com.vanana.yeogi.base.repository.auth;
 
-public class RegisterQueryRepository {
+import org.springframework.stereotype.Repository;
+
+@Repository
+public class RegisterQueryRepository{
 }

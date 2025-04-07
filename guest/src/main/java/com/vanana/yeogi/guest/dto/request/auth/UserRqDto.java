@@ -1,20 +1,16 @@
 package com.vanana.yeogi.guest.dto.request.auth;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.vanana.yeogi.base.validate.GuestUserValidate;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.regex.Pattern;
 
 @Getter
 @RequiredArgsConstructor
-public class UserRqDto implements GuestUserValidate {
+public class UserRqDto{
 
     @NotBlank(message = "이메일 주소를 입력해주세요")
     @Email(message = "올바른 이메일 주소를 입력해주세요")
@@ -32,47 +28,21 @@ public class UserRqDto implements GuestUserValidate {
     @Size(max = 11)
     private String phoneNumber;
 
-    @NotBlank(message = "생일을 입력해주세요")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-mm-dd", timezone = "Asia/Seoul")
+    @NotNull(message = "생일을 입력해주세요")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     private LocalDate birthday;
+
+    @NotBlank(message = "닉네임을 입력해주세요")
+    @Size(min = 2, max = 14, message = "닉네임은 2자 이상 14자 이하로 입력해주세요")
+    private String nickName;
+
+    @NotBlank(message = "성별을 선택해주세요")
+    private String gender;
 
     /**
      * 사용자 동의한 약관 목록
      */
+    @NotEmpty(message = "약관 동의 항목은 1개 이상 필수입니다")
     private List<UserAgreeRqDto> userAgreeRqDtoList;
-
-    /**
-     * 회원가입 Guest 체크로직
-     */
-    @Override
-    public boolean isPasswordMatching() {
-        return password.equals(confirmPassword);
-    }
-
-    @Override
-    public boolean isPhoneNumber() {
-        String regEx = "(01[016789])(\\d{3,4})(\\d{4})";
-        return Pattern.matches(regEx, phoneNumber);
-    }
-
-    @Override
-    public boolean isAdult() {
-        LocalDate today = LocalDate.now();
-
-        int age = today.getYear() - birthday.getYear();
-
-        int currentDay = today.getDayOfMonth();
-        int currentMonth = today.getMonth().getValue();
-
-        int birthDayOfMonth = birthday.getDayOfMonth();
-        int birthdayMonth = birthday.getMonth().getValue();
-
-        if(birthdayMonth * 100 + birthDayOfMonth > currentMonth * 100 + currentDay){
-            age--;
-        }
-
-        return age >= 19;
-    }
-
 
 }

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Getter
 @Component
-@PropertySource("classpath:application-sms.properties")
+@PropertySource("classpath:application-sms.yml")
 public class SmsProperties {
     @Value("${coolsms.key}")
     private String key;

@@ -20,7 +20,16 @@ public enum ErrorType {
     // 휴대폰 인증 에러
     PHONE_EXCEED_LIMIT(3000,HttpStatus.FORBIDDEN,"휴대폰 인증번호 전송을 10초 후 다시 시도해주세요","인증번호 전송 실패"),
     PHONE_CERT_NOT_FOUND(3001,HttpStatus.FORBIDDEN,"휴대폰 인증번호가 존재하지 않습니다.","인증번호 검증 실패"),
-    PHONE_CERT_NOT_MATCH(3002,HttpStatus.FORBIDDEN,"인증번호가 일치하지 않습니다.","인증번호 검증 실패")
+    PHONE_CERT_NOT_MATCH(3002,HttpStatus.FORBIDDEN,"인증번호가 일치하지 않습니다.","인증번호 검증 실패"),
+
+    // 회원가입 유효성 에러
+    USER_PW_NOT_VALID(4000,HttpStatus.FORBIDDEN,"비밀번호는 영문자, 숫자, 특수문자를 포함해야합니다","비밀번호 유효성 검증 실패"),
+    USER_PW_NOT_MATCH(4001,HttpStatus.FORBIDDEN,"비밀번호와 확인 비밀번호가 일치하지 않습니다","비밀번호 확인 필요"),
+    USER_PHONE_NOT_VALID(4002,HttpStatus.FORBIDDEN,"휴대폰 번호 형식이 맞지 않습니다","휴대폰 번호 형식이 맞지 않습니다"),
+    USER_ADULT_NOT_VALID(4003,HttpStatus.FORBIDDEN,"만 19세 이상만 가입 가능합니다","만 19세 이상만 가입 가능합니다"),
+    USER_NICKNAME_NOT_VALID(4004,HttpStatus.FORBIDDEN,"닉네임은 영문,숫자,한글만 가능합니다","닉네임은 영문,숫자,한글만 가능합니다")
+
+
     ;
 
     private final int code;
